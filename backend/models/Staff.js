@@ -56,7 +56,7 @@ const staffSchema = new mongoose.Schema(
 
     experience: {
       type: Number,
-      default: 0, // years
+      default: 0,
     },
 
     certified: {
@@ -64,9 +64,7 @@ const staffSchema = new mongoose.Schema(
       default: false,
     },
 
-    profileImage: {
-      type: String,
-    },
+    profileImage: String,
 
     password: {
       type: String,
@@ -87,8 +85,9 @@ const staffSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-/* Auto permissions */
-staffSchema.pre("save", function (next) {
+/* Permissions + Password Hash (single hook) */
+staffSchema.pre("save", async function () {
+  // Role based permissions
   if (this.isNew) {
     if (this.role === "Admin") {
       this.permissions = ["all"];
@@ -98,14 +97,11 @@ staffSchema.pre("save", function (next) {
       this.permissions = ["view_tasks", "update_task_status"];
     }
   }
-  next();
-});
 
-/* Password hash */
-staffSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) return next();
-  this.password = await bcrypt.hash(this.password, 10);
-  next();
+  // Hash password only once
+  if (this.isModified("password")) {
+    this.password = await bcrypt.hash(this.password, 10);
+  }
 });
 
 module.exports = mongoose.model("Staff", staffSchema);
