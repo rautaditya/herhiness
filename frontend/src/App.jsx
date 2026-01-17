@@ -31,6 +31,7 @@ import CutterRoutes from "./routes/CutterRoutes";
 import TailorRoutes from "./routes/TailorRoutes";
 import ManagerRoutes from "./routes/ManagerRoutes";
 import HandworkerRoutes from "./routes/HandworkerRoutes";
+import StaffRoutes from "./routes/StaffRoutes";
 
 export default function App() {
   return (

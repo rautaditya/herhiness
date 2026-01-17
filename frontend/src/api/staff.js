@@ -1,7 +1,7 @@
 import axios from "./axios";
 
 // Create staff
-export const createStaff = (data) => axios.post("/api/staff", data);
+export const createStaff = (data) => axios.post("/api/staff/add", data);
 
 // Get all staff
 export const getAllStaff = () => axios.get("/api/staff");
