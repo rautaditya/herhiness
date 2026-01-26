@@ -363,7 +363,7 @@ export default function AdminCustomers() {
         </div>
       )}
 
-      {/* ✅ View Modal */}
+      {/* ✅ View Modal 
       {selectedCustomer && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-2xl max-h-[90vh] overflow-y-auto relative">
@@ -463,7 +463,112 @@ export default function AdminCustomers() {
             </div>
           </div>
         </div>
-      )}
+      )} */}
+       
+      {/* ✅ View Modal */}
+{selectedCustomer && (
+  <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+    <div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-2xl max-h-[90vh] overflow-y-auto relative">
+      <button
+        className="absolute top-6 right-6 text-gray-400 hover:text-gray-600 transition-colors"
+        onClick={() => setSelectedCustomer(null)}
+      >
+        <X size={24} />
+      </button>
+
+      <h3 className="text-2xl font-bold mb-6 text-gray-900">Customer Details</h3>
+      
+      <div className="bg-gray-50 rounded-2xl p-6 mb-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="space-y-2">
+            <label className="block text-sm font-semibold text-gray-700">Name</label>
+            <div className="px-4 py-3 bg-white rounded-lg text-gray-900 font-medium">
+              {selectedCustomer.name}
+            </div>
+          </div>
+          <div className="space-y-2">
+            <label className="block text-sm font-semibold text-gray-700">Email</label>
+            <div className="px-4 py-3 bg-white rounded-lg text-gray-900">
+              {selectedCustomer.email}
+            </div>
+          </div>
+          <div className="space-y-2">
+            <label className="block text-sm font-semibold text-gray-700">Phone</label>
+            <div className="px-4 py-3 bg-white rounded-lg text-gray-900">
+              {selectedCustomer.phone}
+            </div>
+          </div>
+          <div className="space-y-2">
+            <label className="block text-sm font-semibold text-gray-700">Gender</label>
+            <div className="px-4 py-3 bg-white rounded-lg">
+              <span
+                className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${getGenderColor(selectedCustomer.gender)}`}
+              >
+                {selectedCustomer.gender}
+              </span>
+            </div>
+          </div>
+        </div>
+        <div className="mt-6 space-y-2">
+          <label className="block text-sm font-semibold text-gray-700">Address</label>
+          <div className="px-4 py-3 bg-white rounded-lg text-gray-900">
+            {selectedCustomer.address}
+          </div>
+        </div>
+      </div>
+
+      <div className="mb-6">
+        <h4 className="text-lg font-semibold text-gray-900 mb-4">
+          Orders ({selectedCustomer.orders?.length || 0})
+        </h4>
+        {selectedCustomer.orders?.length > 0 ? (
+          <div className="space-y-3 max-h-40 overflow-y-auto">
+            {selectedCustomer.orders.map((order) => (
+              <div key={order._id} className="bg-gray-50 border border-gray-200 rounded-xl p-4">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="font-semibold text-gray-900">{order.orderNo}</p>
+                    <p className="text-sm text-gray-600">{order.service?.name}</p>
+                  </div>
+                  <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-pink-100 text-pink-800">
+                    {order.status}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-8 text-gray-500">
+            <Users className="mx-auto h-12 w-12 text-gray-400 mb-2" />
+            <p>No orders found</p>
+          </div>
+        )}
+      </div>
+
+      <div className="flex justify-end gap-4 pt-4 border-t border-gray-200">
+        <button
+          onClick={() => handleEdit(selectedCustomer)}
+          className="px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg hover:from-blue-600 hover:to-blue-700 transition-all duration-200 transform hover:scale-105 font-medium shadow-lg"
+        >
+          Edit Customer
+        </button>
+        <button
+          onClick={() => handleDelete(selectedCustomer._id)}
+          className="px-6 py-3 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-lg hover:from-red-600 hover:to-red-700 transition-all duration-200 transform hover:scale-105 font-medium shadow-lg"
+        >
+          Delete Customer
+        </button>
+        <button
+          onClick={() => setSelectedCustomer(null)}
+          className="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors font-medium"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
 
       {/* ✅ Edit Modal */}
       {editingCustomerData && (
